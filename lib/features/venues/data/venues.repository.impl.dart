@@ -13,8 +13,10 @@ class VenuesRepositoryImpl extends VenuesRepository {
   });
 
   @override
-  Future<Fallible<List<Venue>>> getVenuesList(
-      {int size = defaultPageSize, int offset = defaultStartIndex}) async {
+  Future<Fallible<List<Venue>>> getList({
+    int size = defaultPageSize,
+    int offset = defaultPageSize,
+  }) async {
     try {
       final result = await remoteDataSource.getVenuesList(
         size: size,

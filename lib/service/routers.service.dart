@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:venues/core/constants/pagination.core.dart';
 import 'package:venues/features/venues/domain/entity/venue.entity.dart';
 import 'package:venues/features/venues/domain/venues.repository.dart';
 import 'package:venues/injector.dart';
@@ -24,11 +25,12 @@ class RoutersService {
       name: venues,
       path: '/venues',
       builder: (context, state) => BlocProvider(
-        // create: (_) =>
-        //     VenuesCubit(repository: sl<VenuesRepository>())..loadVenues(),
-        create: (_) => PaginationCubit<Venue>(
-            action: () => sl<VenuesRepository>().getVenuesList())
-          ..query(),
+        create: (_) =>
+            PaginationCubit<Venue>(repository: sl<VenuesRepository>())
+              ..query(
+                size: defaultPageSize,
+                index: defaultStartIndex,
+              ),
         child: const VenuesPage(),
       ),
     ),

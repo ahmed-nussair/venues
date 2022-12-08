@@ -1,13 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:venues/core/base_repository.core.dart';
 import 'package:venues/core/constants/pagination.core.dart';
-import 'package:venues/core/failure/base.core.dart';
 part 'pagination_state.dart';
 
 class PaginationCubit<T> extends Cubit<PaginationState<T>> {
-  final Future<Fallible<List<T>>> Function() action;
+  final BaseRepository repository;
 
-  PaginationCubit({required this.action})
+  PaginationCubit({required this.repository})
       : super(const PaginationInitial(items: []));
 
   int currentIndex = defaultStartIndex;
@@ -15,7 +15,10 @@ class PaginationCubit<T> extends Cubit<PaginationState<T>> {
 
   final List<T> _items = [];
 
-  void query() async {
+  void query({
+    int index = defaultStartIndex,
+    int size = defaultPageSize,
+  }) async {
     if (isLoading) return;
     isLoading = true;
     emit(
@@ -24,7 +27,10 @@ class PaginationCubit<T> extends Cubit<PaginationState<T>> {
         isFirstLoading: currentIndex == defaultStartIndex,
       ),
     );
-    final result = await action();
+    final result = await repository.getList(
+      offset: index,
+      size: size,
+    );
     result.fold(
       (l) => emit(
         FailureState(
@@ -33,7 +39,7 @@ class PaginationCubit<T> extends Cubit<PaginationState<T>> {
         ),
       ),
       (r) {
-        _items.addAll(r);
+        _items.addAll(r as List<T>);
         emit(SuccessState(items: _items));
       },
     );

@@ -15,7 +15,7 @@ class VenuesCubit extends Cubit<VenuesState> {
     int index = defaultStartIndex,
   }) async {
     emit(LoadingState());
-    final result = await repository.getVenuesList(
+    final result = await repository.getList(
       size: size,
       offset: index,
     );
