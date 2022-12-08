@@ -2,11 +2,9 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skeletons/skeletons.dart';
 import 'package:venues/features/venues/domain/entity/venue.entity.dart';
 import 'package:venues/presentation/cubit/pagination_cubit.dart';
 import 'package:venues/presentation/pages/venues/widget/loading_venues.widget.dart';
-import 'package:venues/presentation/pages/venues/widget/venue_item.widget.dart';
 import 'package:venues/presentation/pages/venues/widget/venues_list.widget.dart';
 
 class VenuesPage extends StatefulWidget {
